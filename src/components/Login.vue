@@ -105,7 +105,7 @@ export default {
       // 账户登录信息
       loginForm: {
         userName: "admin",
-        userPass: "a123456",
+        userPass: "123456",
       },
       //表单验证规则对象
       loginFormRules: {
@@ -196,14 +196,15 @@ export default {
     login() {
       const _this = this;
       this.axios
-        .post("http://localhost:8088/frameproject/login", _this.loginForm)
+        .post("http://localhost:8188/sysUser/login", _this.loginForm)
         .then(function (response) {
           if (typeof response.data.data == "string") {
             ElMessage.error(response.data.data);
           } else {
+            console.log(response)
             _this.$store.commit("setmenulists", response.data.data.menus);
             _this.$store.commit("updateUserInfo", response.data.data);
-            _this.$router.push("/Workbench");
+            _this.$router.push("/Home");
             //动态路由
             initDynamicRoutes();
           }
@@ -219,7 +220,7 @@ export default {
         code: _this.loginFormgo.userMessage
       }
       this.axios({
-        url: "http://localhost:8088/frameproject/login/fast",
+        url: "http://localhost:8188/login/fast",
         method: "post",
         params: fd,
       })
@@ -229,7 +230,7 @@ export default {
           } else {
             _this.$store.commit("setmenulists", response.data.data.menus);
             _this.$store.commit("updateUserInfo", response.data.data);
-            _this.$router.push("/Workbench");
+            _this.$router.push("/Home");
             //动态路由
             initDynamicRoutes();
           }

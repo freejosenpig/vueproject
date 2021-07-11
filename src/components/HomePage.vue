@@ -8,7 +8,7 @@
           style="vertical-align: middle; vertical-align: -5px"
           src="../assets/img/mv.jpg"
         /> -->
-        <span>星际进销存</span>
+        <span></span>
       </div>
       <!-- 用户信息 -->
       <el-row style="float: right" :gutter="40">
@@ -145,79 +145,15 @@ export default {
     this.menulist = this.menulists;
   },
   methods: {
-    //获取未读消息通知，
-    findmessage(){
-      const state = JSON.parse(sessionStorage.getItem("state"));
-       var fd={
-          userid:this.$store.state.userInfo.userName,
-        };
-        var _this = this;
-       
-        this.axios({
-          url:"http://localhost:8088/frameproject/msg/get",
-          method:"get",
-          params: fd,
-          processData: false,
-          headers:{
-            JWTDemo:state.userInfo.token,
-          }
-          }).then(function(response){
-            _this.message=response.data.data.msg;
-            console.log(response.data.data.msg)
-          }).catch(function(error){
-             console.log(error)
-          });
-    },
     handleCommand(command) {
       //退出
       if (command == "signout") {
           this.$router.push("/Login");
           sessionStorage.clear();
           console.log(command);
-      } else if(command == "mydata"){
-          this.$router.push('/PersonalCenter') ;
-     
       }
-    },
-    gotoset(){
-      this.$router.push('/Menulist')
-    },
-   gotoset1(){
-      this.$router.push('/messageNotification')
-    },
-             // 消息队列获取
-            mqtthuoquMsg() {
-                //初始化连接
-                const headers = {
-                    login: "guest",
-                    passcode: "guest"
-                };
-                //进行连接
-                this.client.connect(headers.login, headers.passcode, this.onConnected,  this.onFailed, "/");
-            },
-            onConnected: function () {
-                //订阅频道
-                const topic = "/exchange/mail.exchange/mail.routing.key";
-		console.log(topic+">>>>>>>>>>>>>>>>>>>>>");
-                this.client.subscribe(topic, this.responseCallback, this.onFailed);
-            },
-            onFailed: function (frame) {
-                console.log("MQ Failed: " + frame);
-                this.$message.error('连接失败')
-            },
-            // 回传消息
-            responseCallback: function (frame) {
-                 console.log("MQ msg=>" + frame.body);
-                //接收消息处理
-            },
-            // 断开相应的连接
-            close:function(){
-                  this.client.disconnect(function() {
-                            console.log("已退出账号");
-                  })
-            }
-  },
- 
+    },}
+ ,
   computed: { 
     ...mapState(["menulists"]),
    

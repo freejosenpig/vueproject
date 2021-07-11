@@ -18,9 +18,6 @@ const routes = [
 		path: '/HomePage',
 		name: 'HomePage',
 		component: HomePageView,
-		children: [
-			//个人中心
-		]
 
 	}
 
