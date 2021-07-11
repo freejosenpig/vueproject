@@ -6,7 +6,6 @@ const store = createStore({
 			userName: "",
 			userIcon: "",
 			isValidate: false,
-			token: ""
 		},
 		thisdjs: "",
 		menulists: [],
