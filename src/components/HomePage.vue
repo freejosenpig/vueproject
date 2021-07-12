@@ -8,7 +8,7 @@
           style="vertical-align: middle; vertical-align: -5px"
           src="../assets/img/mv.jpg"
         /> -->
-        <span></span>
+        <span>智慧养老</span>
       </div>
       <!-- 用户信息 -->
       <el-row style="float: right" :gutter="40">
@@ -90,16 +90,16 @@
           router
         >
           <!-- 控制台 -->
-          <el-menu-item :index="menulist[0].path" :key="menulist[0].menuId">
+          <el-menu-item :index="menulist[0].path" :key="menulist[0].id">
             <template #title>
               <i :class="menulist[0].icon"></i>{{ menulist[0].menuName }}
             </template>
           </el-menu-item>
           <!-- 一级菜单 -->
           <el-submenu
-            :index="item.menuId"
+            :index="item.id"
             v-for="item in menulist.slice(1)"
-            :key="item.menuId"
+            :key="item.id"
           >
             <template #title>
               <i :class="item.icon"></i>{{ item.menuName }}
@@ -108,7 +108,7 @@
             <el-menu-item
               :index="subItem.path"
               v-for="subItem in item.childMenu"
-              :key="subItem.menuId"
+              :key="subItem.id"
             >
               {{ subItem.menuName }}
             </el-menu-item>
