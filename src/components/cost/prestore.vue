@@ -69,11 +69,15 @@
 			},
 			//新增预存
 			addPrestore(){
+				
 				const _this=this
 				this.axios.post("http://localhost:8188/insertprestore",this.prestoreForm)
 				.then(function(response){
 					console.log(response)
 					_this.selectAllPrestore()
+					setTimeout(function () {
+					  window.location.reload()
+					}, 1000)
 				}).catch(function(error){
 					console.log(error)
 				})

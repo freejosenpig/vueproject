@@ -1,7 +1,32 @@
 <template>
+	<h1>流水界面管理</h1>
+	<div>
+	  <el-form :inline="true" :model="formInline" class="demo-form-inline">
+	  	  <el-form-item label="老人姓名">
+	  		<el-input v-model="formInline.user" placeholder="老人姓名"></el-input>
+	  	  </el-form-item>
+	  	  <el-form-item label="预存金额">
+	  		<el-input v-model="formInline.user" style="width: 100px;"/>-<el-input v-model="formInline.user"  style="width: 100px;"/>
+	  	  </el-form-item>
+	  	  <el-form-item>
+	  		<el-button type="primary" @click="onSubmit">查询</el-button>
+	  	  </el-form-item>
+	  </el-form>
+	</div>   
+	<el-table  :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+	  <el-table-column type="index"  label="编号" align="center"></el-table-column>
+	  <el-table-column  prop="jdOldpeople.oldpeopleName" label="老人姓名" align="center" ></el-table-column>
+	  <el-table-column prop="jdOldpeople.oldpeopleAccount" label="入住日期" align="center" ></el-table-column>
+	  <el-table-column prop="prestoreMoney" label="合计欠费" align="center"> </el-table-column>
+	  <el-table-column label="操作" align="center">
+		  <template #default="scope">
+		        <el-button size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+		        <el-button size="mini" type="danger"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+		  </template>
+	  </el-table-column>
+	</el-table>
 	<!-- 分页 -->
-	<div class="block">
-	    <span class="demonstration">调整每页显示条数</span>
+	<div class="block" style="margin-left: -12px; margin-top: 10px;">
 	    <el-pagination @size-change="handleSizeChange" background @current-change="handleCurrentChange"
 	      v-model:currentPage="currentPage2" :page-sizes="[100, 200, 300, 400]" :page-size="100"
 	      layout="sizes, prev, pager, next" :total="1000">
@@ -10,6 +35,57 @@
 </template>
 
 <script>
+	export default{
+		data(){
+			return{
+				formInline:{
+					oldpeopleName:"",
+					value1:"",value2:""
+				},
+				tableData:[],
+				prestoreForm:{
+					oldpeopleName:"",oldpeopleAccount:0,prestoreMoney:"",entryfeesperson:"",oldpeopleName:""
+				}
+			}
+		},
+		methods:{
+			//新增预存
+			addPrestore(){
+				const _this=this
+				this.axios.post("http://localhost:8188/insertprestore",this.prestoreForm)
+				.then(function(response){
+					console.log(response)
+					_this.selectAllPrestore()
+					setTimeout(function () {
+					  window.location.reload()
+					}, 1000)
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			//查询所有预存信息
+			selectAllPrestore(){
+				const _this=this
+				this.axios.get("http://localhost:8188/selectPreAll")
+				.then(function(response){
+					console.log(response)
+					_this.tableData=response.data
+				}).catch(function(error){
+					console.log(error)
+				})
+			}
+		},
+		created() {
+			const _this=this
+			this.axios.get("http://localhost:8188/selectPreAll")
+			.then(function(response){
+				console.log(response)
+				_this.tableData=response.data
+			}).catch(function(error){
+				console.log(error)
+			})
+		}
+	}
 </script>
 
 <style>
