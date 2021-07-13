@@ -6,37 +6,32 @@
 			</el-button>
 		</div>
 		<div style="margin-top: 20px;display:flex;justify-content: center">
-			<el-table :data="condata" border style="width: 1200px">
+			<el-table :data="ondata" border style="width: 1200px">
 				<el-table-column type="index" :index="indexMethod" width="49" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingName" label="咨询人" width="120" align="center">
+				<el-table-column prop="jdOldpeople.oldpeopleName" label="姓名" width="127" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingTime" label="咨询时间" width="120" align="center">
+				<el-table-column prop="room.roomNumber" label="入住房间编号" width="127" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingWay" label="咨询方式" width="100" align="center">
+				<el-table-column prop="bad.bedNumber" label="入住床位编号" width="127" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingContent" label="咨询内容" width="180" align="center"
+				<el-table-column prop="onTime" label="入住时间" width="127" align="center">
+				</el-table-column>
+				<el-table-column prop="serviceNurse.nname" label="登记人" width="127" align="center"
 					style="font-size: 10px;" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="consultingType" label="咨询类型" width="100" align="center">
+				<el-table-column prop="onRtime" label="登记时间" width="127" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingPhone" label="联系电话" width="150" align="center">
+				<el-table-column prop="serviceNurse2.nname" label="经办人" width="127" align="center">
 				</el-table-column>
-				<el-table-column prop="serviceNurse2.nname" label="接待人" width="100" align="center">
+				<el-table-column prop="onOptime" label="经办时间" width="127" align="center">
 				</el-table-column>
-				<el-table-column prop="serviceNurse.nname" label="登记人" width="100" align="center">
-				</el-table-column>
-				<el-table-column label="操作" width="180" align="center">
-					<template #default="scope">
-						<el-button @click="selectcon(scope.row)" type="text" size="small">查看</el-button>
-						<el-button @click="updateconshow(scope.row)" type="text" size="small">编辑</el-button>
-						<el-button @click="deletecon(scope.row)" type="text" size="small">删除</el-button>
-					</template>
+				<el-table-column prop="onNote" label="备注" width="133" align="center" show-overflow-tooltip>
 				</el-table-column>
 			</el-table>
 		</div>
 		<div style="margin-top:20px ;display:flex;justify-content: center;position: absolute;width: 100%;">
-			<el-pagination background @size-change="handleSizeChange1" @current-change="handleCurrentChange1"
+			<el-pagination @size-change="handleSizeChange1" @current-change="handleCurrentChange1"
 				:current-page="pageInfo1.currentPage" :page-sizes="[2, 3, 6]" :page-size="pageInfo1.pagesize"
 				layout="total, sizes, prev, pager, next, jumper" :total="pageInfo1.total">
 			</el-pagination>
@@ -115,7 +110,21 @@
 					</div>
 					<div class="add_from">
 						<el-form-item label="政治面貌">
-							<el-input v-model="oform.oldpeoplePolitical" placeholder="请输入内容"></el-input>
+							<el-select v-model="oform.oldpeoplePolitical" placeholder="请选择">
+								<el-option label="群众" value="群众"></el-option>
+								<el-option label="中共党员" value="中共党员"></el-option>
+								<el-option label="中共预备党员" value="中共预备党员"></el-option>
+								<el-option label="共青团员" value="共青团员"></el-option>
+								<el-option label="民革党员" value="民革党员"></el-option>
+								<el-option label="民盟盟员" value="民盟盟员"></el-option>
+								<el-option label="民建会员" value="民建会员"></el-option>
+								<el-option label="民进会员" value="民进会员"></el-option>
+								<el-option label="农工党党员" value="农工党党员"></el-option>
+								<el-option label="致公党党员" value="致公党党员"></el-option>
+								<el-option label="九三学社社员" value="九三学社社员"></el-option>
+								<el-option label="台盟盟员" value="台盟盟员"></el-option>
+								<el-option label="无党派人士" value="无党派人士"></el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="add_from">
@@ -150,7 +159,12 @@
 					</div>
 					<div class="add_from">
 						<el-form-item label="劳动能力">
-							<el-input v-model="oform.oldpeopleAbility" placeholder="请输入内容"></el-input>
+							<el-select v-model="oform.oldpeopleAbility" placeholder="请选择">
+								<el-option label="较强" value="较强"></el-option>
+								<el-option label="一般" value="一般"></el-option>
+								<el-option label="较差" value="较差"></el-option>
+								<el-option label="极差" value="极差"></el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="add_from">
@@ -166,8 +180,8 @@
 					<div class="add_from">
 						<el-form-item label="登记人">
 							<el-select v-model="oform.oldpeopleRegistrant" placeholder="请选择">
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</div>
@@ -232,8 +246,8 @@
 					<div class="add_from">
 						<el-form-item label="登记人">
 							<el-select v-model="fform.familyRegistrant" placeholder="请选择">
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</div>
@@ -273,8 +287,8 @@
 					<div class="add_from">
 						<el-form-item label="评估人">
 							<el-select v-model="hform.healthEvaluator" placeholder="请选择">
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</div>
@@ -299,8 +313,8 @@
 					<div class="add_from">
 						<el-form-item label="登记人">
 							<el-select v-model="hform.healthRegistrant" placeholder="请选择">
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</div>
@@ -359,8 +373,8 @@
 					<div class="add_from">
 						<el-form-item label="登记人">
 							<el-select v-model="onform.onRegistrant" placeholder="请选择">
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
 							</el-select>
 						</el-form-item>
 					</div>
@@ -373,9 +387,15 @@
 					<div class="add_from">
 						<el-form-item label="经办人">
 							<el-select v-model="onform.onOperator" placeholder="请选择">
-								<el-option label="2" value="2"></el-option>
-								<el-option label="3" value="3"></el-option>
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
 							</el-select>
+						</el-form-item>
+					</div>
+					<div class="add_from">
+						<el-form-item label="经办时间">
+							<input type="date" v-model="onform.onOptime" style="width: 200px;background-color: white;
+								border: 1px #B3C0D1 solid;color: #8C939D;border-radius: 4px;text-align: center;" />
 						</el-form-item>
 					</div>
 					<div class="add_from">
@@ -624,7 +644,6 @@
 					desc: ''
 				},
 				oform: {
-					oldpeopleId: '',
 					oldpeopleName: '',
 					oldpeopleSex: '',
 					oldpeopleIdcard: '',
@@ -682,7 +701,9 @@
 					onRegistrant: '',
 					onRtime: '',
 					onOperator: '',
-					onNote: ''
+					onNote: '',
+					onmoney: '',
+					onOptime:''
 				},
 				pageInfo1: {
 					what: "",
@@ -695,17 +716,181 @@
 				},
 				addOldV: false,
 				addFamilyV: false,
-				addOnV: true,
+				addOnV: false,
 				addhealthV: false,
 				condata: [],
 				ondata: [],
+				ndata:[],
+				addname: ''
 			};
 		},
 		methods: {
+			testold(){
+				const _this = this
+				this.addname = this.$store.state.userInfo.userName
+				_this.axios.post("http://localhost:8188/insertOldpeople/" + _this.addname, _this.oform)
+					.then(function(response) {
+						console.log(response)
+						_this.$message({
+							type: 'success',
+							message: '添加成功'
+						})
+						_this.addOldV = false
+						for (var key in _this.oform) {
+							delete _this.oform[key]
+						}
+					}).catch(function(error) {
+						console.log(error)
+						_this.$message({
+							type: 'info',
+							message: '添加失败,请联系管理员进行维护！'
+						});
+						for (var key in _this.oform) {
+							delete _this.oform[key]
+						}
+					})
+			},
 			addAll() {
+				const _this = this
 				console.log(this.$store.state.userInfo.userName)
+				if (this.onform.onBed[0] == 1) {
+					this.onform.onmoney = 3000
+				} else if (this.onform.onBed[0] == 2) {
+					this.onform.onmoney = 2000
+				} else if (this.onform.onBed[0] == 3) {
+					this.onform.onmoney = 1000
+				} else {
+					this.onform.onmoney = ''
+				}
+				console.log(this.onform.onmoney)
+				this.addname = this.$store.state.userInfo.userName
 				this.onform.onBed = this.onform.onBed[2]
-				console.log("入住床位")
+				this.axios.post("http://localhost:8188/insertOldpeople/" + this.addname, this.oform)
+					.then(function(response) {
+						console.log(response)
+						_this.addOldV = false
+						for (var key in _this.oform) {
+							delete _this.oform[key]
+						}
+						if(response.data.code == 200){
+							_this.fform.familyOrdid = response.data.data.oldpeopleId
+							_this.axios.post("http://localhost:8188/insertFamily/" + _this.addname, _this.fform)
+								.then(function(response) {
+									console.log(response)
+									_this.addFamilyV = false
+									for (var key in _this.fform) {
+										delete _this.fform[key]
+									}
+									if(response.data.code == 200){
+										_this.hform.healthOrdid = response.data.data.familyOrdid
+										_this.axios.post("http://localhost:8188/insertHealth/" + _this.addname, _this.hform)
+											.then(function(response) {
+												console.log(response)
+												_this.addhealthV = false
+												for (var key in _this.hform) {
+													delete _this.hform[key]
+												}
+												if(response.data.code == 200){
+													_this.onform.onOldid = response.data.data.healthOrdid
+													_this.axios.post("http://localhost:8188/insertOn/" + _this.addname, _this.onform)
+														.then(function(response) {
+															console.log(response)
+															_this.addOnV = false
+															for (var key in _this.onform) {
+																delete _this.onform[key]
+															}
+															if(response.data.code == 200){
+																_this.$message({
+																	type: 'success',
+																	message: '添加成功'
+																})
+																_this.axios.get("http://localhost:8188/selectAllOn", {
+																		params: _this.pageInfo1
+																	})
+																	.then(function(response) {
+																		console.log(response)
+																		_this.ondata = response.data.data.list
+																		_this.pageInfo1.total = response.data.data.total
+																	}).catch(function(error) {
+																		console.log(error)
+																	})
+															}else{
+																_this.$message({
+																	type: 'info',
+																	message: '添加失败,请联系管理员进行维护！'
+																});
+																for (var key in _this.onform) {
+																	delete _this.onform[key]
+																}
+															}
+														}).catch(function(error) {
+															console.log(error)
+															_this.$message({
+																type: 'info',
+																message: '添加失败,请联系管理员进行维护！'
+															});
+															for (var key in _this.onform) {
+																delete _this.onform[key]
+															}
+														})
+												}else{
+													_this.$message({
+														type: 'info',
+														message: '添加失败,请联系管理员进行维护！'
+													});
+													for (var key in _this.hform) {
+														delete _this.hform[key]
+													}
+												}
+											}).catch(function(error) {
+												console.log(error)
+												_this.$message({
+													type: 'info',
+													message: '添加失败,请联系管理员进行维护！'
+												});
+												for (var key in _this.hform) {
+													delete _this.hform[key]
+												}
+											})
+									}else{
+										_this.$message({
+											type: 'info',
+											message: '添加失败,请联系管理员进行维护！'
+										});
+										for (var key in _this.fform) {
+											delete _this.fform[key]
+										}
+									}
+								}).catch(function(error) {
+									console.log(error)
+									_this.$message({
+										type: 'info',
+										message: '添加失败,请联系管理员进行维护！'
+									});
+									for (var key in _this.fform) {
+										delete _this.fform[key]
+									}
+								})
+						}else{
+							_this.$message({
+								type: 'info',
+								message: '添加失败,请联系管理员进行维护！'
+							});
+							for (var key in _this.oform) {
+								delete _this.oform[key]
+							}
+						}
+					}).catch(function(error) {
+						console.log(error)
+						_this.$message({
+							type: 'info',
+							message: '添加失败,请联系管理员进行维护！'
+						});
+						for (var key in _this.oform) {
+							delete _this.oform[key]
+						}
+					})
+
 			},
 			dsave4() {
 				for (var key in this.onform) {
@@ -802,11 +987,11 @@
 					})
 					.then(function(response) {
 						console.log(response.data)
-						_this.oform.oldpeopleName = response.data.consultingOldname
-						_this.oform.oldpeopleIdcard = response.data.consultingOldidcard
-						_this.oform.oldpeopleAge = response.data.consultingOldage
-						_this.oform.oldpeopleSex = response.data.consultingOldsex
-						_this.oform.oldpeopleAddress = response.data.consultingOrdaddress
+						_this.oform.oldpeopleName = response.data.data.consultingOldname
+						_this.oform.oldpeopleIdcard = response.data.data.consultingOldidcard
+						_this.oform.oldpeopleAge = response.data.data.consultingOldage
+						_this.oform.oldpeopleSex = response.data.data.consultingOldsex
+						_this.oform.oldpeopleAddress = response.data.data.consultingOrdaddress
 					}).catch(function(error) {
 						console.log(error)
 					})
@@ -819,6 +1004,15 @@
 				for (var key in this.oform) {
 					delete this.oform[key]
 				}
+				for (var key in this.onform) {
+					delete this.onform[key]
+				}
+				for (var key in this.hform) {
+					delete this.hform[key]
+				}
+				for (var key in this.fform) {
+					delete this.fform[key]
+				}
 			},
 			indexMethod(index) {
 				return index + 1;
@@ -828,12 +1022,12 @@
 				this.pageInfo1.pagesize = pagesize
 				var ps = qs.stringify(this.pageInfo1)
 				console.log(ps)
-				this.axios.get("http://localhost:8188/selectAllConsulting", {
+				this.axios.get("http://localhost:8188/selectAllOn", {
 						params: this.pageInfo1
 					})
 					.then(function(response) {
 						console.log(response.data)
-						_this.condata = response.data.list
+						_this.ondata = response.data.data.list
 					}).catch(function(error) {
 						console.log(error)
 					})
@@ -842,11 +1036,11 @@
 				var _this = this
 				this.pageInfo1.currentPage = currentPage
 				var ps = qs.stringify(this.pageInfo1) // eslint-disable-line no-unused-vars
-				this.axios.get("http://localhost:8188/selectAllConsulting", {
+				this.axios.get("http://localhost:8188/selectAllOn", {
 						params: this.pageInfo1
 					})
 					.then(function(response) {
-						_this.condata = response.data.list
+						_this.ondata = response.data.data.list
 					}).catch(function(error) {
 						console.log(error)
 					})
@@ -854,19 +1048,30 @@
 		},
 		created() {
 			const _this = this
-			this.axios.get("http://localhost:8188/selectConsulting").then(function(response) {
-				console.log(response)
-				_this.condata = response.data
-			}).catch(function(error) {
-				console.log(error)
-			})
-			// this.axios.get("http://localhost:8188/selectAllBed").then(function(response) {
-			// 	console.log(response)
-			// 	_this.beddata = response.data
-			// 	console.log(_this.beddata)
-			// }).catch(function(error) {
-			// 	console.log(error)
-			// })
+			this.axios.get("http://localhost:8188/selectAllOn", {
+					params: this.pageInfo1
+				})
+				.then(function(response) {
+					console.log(response)
+					_this.ondata = response.data.data.list
+					_this.pageInfo1.total = response.data.data.total
+				}).catch(function(error) {
+					console.log(error)
+				})
+			this.axios.get("http://localhost:8188/selectConsulting")
+				.then(function(response) {
+					console.log(response)
+					_this.condata = response.data.data
+				}).catch(function(error) {
+					console.log(error)
+				})
+			this.axios.get("http://localhost:8188/selectAllNurse")
+				.then(function(response) {
+					console.log(response)
+					_this.ndata = response.data.data
+				}).catch(function(error) {
+					console.log(error)
+				})
 		}
 	});
 </script>
@@ -961,7 +1166,7 @@
 
 	.add_content4 {
 		width: 1150px;
-		height: 200px;
+		height: 250px;
 		background-color: white;
 		display: flex;
 		flex-wrap: wrap;
@@ -976,8 +1181,8 @@
 		height: 50px;
 		background-color: white;
 	}
-	
-	.prompt{
+
+	.prompt {
 		margin-left: 310px;
 	}
 </style>

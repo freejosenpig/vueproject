@@ -25,7 +25,7 @@
             :data="all"
             :props="defaultProps"
             @check-change="handleCheckChange"
-            node-key="menuId"
+            node-key="id"
             :default-checked-keys="current"
             show-checkbox
             ref="tree"

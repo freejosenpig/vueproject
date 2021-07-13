@@ -9,24 +9,24 @@
 			<el-table :data="condata" border style="width: 1200px">
 				<el-table-column type="index" :index="indexMethod" width="49" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingName" label="咨询人" width="120" align="center">
+				<el-table-column prop="consultingName" label="咨询人" width="125" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingTime" label="咨询时间" width="120" align="center">
+				<el-table-column prop="consultingTime" label="咨询时间" width="125" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingWay" label="咨询方式" width="100" align="center">
+				<el-table-column prop="consultingWay" label="咨询方式" width="125" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingContent" label="咨询内容" width="180" align="center"
+				<el-table-column prop="consultingContent" label="咨询内容" width="125" align="center"
 					style="font-size: 10px;" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="consultingType" label="咨询类型" width="100" align="center">
+				<el-table-column prop="consultingType" label="咨询类型" width="125" align="center">
 				</el-table-column>
-				<el-table-column prop="consultingPhone" label="联系电话" width="150" align="center">
+				<el-table-column prop="consultingPhone" label="联系电话" width="125" align="center">
 				</el-table-column>
-				<el-table-column prop="serviceNurse2.nname" label="接待人" width="100" align="center">
+				<el-table-column prop="serviceNurse2.nname" label="接待人" width="125" align="center">
 				</el-table-column>
-				<el-table-column prop="serviceNurse.nname" label="登记人" width="100" align="center">
+				<el-table-column prop="serviceNurse.nname" label="登记人" width="125" align="center">
 				</el-table-column>
-				<el-table-column label="操作" width="180" align="center">
+				<el-table-column label="操作" width="150" align="center">
 					<template #default="scope">
 						<el-button @click="selectcon(scope.row)" type="text" size="small">查看</el-button>
 						<el-button @click="updateconshow(scope.row)" type="text" size="small">编辑</el-button>
@@ -36,8 +36,8 @@
 			</el-table>
 		</div>
 		<div style="margin-top:20px ;display:flex;justify-content: center;position: absolute;width: 100%;">
-			<el-pagination background @size-change="handleSizeChange1" @current-change="handleCurrentChange1"
-				:current-page="pageInfo1.currentPage" :page-sizes="[2, 3, 6]" :page-size="pageInfo1.pagesize"
+			<el-pagination @size-change="handleSizeChange1" @current-change="handleCurrentChange1"
+				:current-page="pageInfo1.a" :page-sizes="[2, 3, 6]" :page-size="pageInfo1.b"
 				layout="total, sizes, prev, pager, next, jumper" :total="pageInfo1.total">
 			</el-pagination>
 		</div>
@@ -135,8 +135,7 @@
 					<div class="add_from">
 						<el-form-item label="接待人">
 							<el-select v-model="cform.consultingService" placeholder="请选择">
-								<el-option :key="item.id" :label="item.nname"
-									:value="item.id" v-for="item in ndata">
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -144,8 +143,7 @@
 					<div class="add_from">
 						<el-form-item label="登记人">
 							<el-select v-model="cform.consultingRegistrant" placeholder="请选择">
-								<el-option :key="item.id" :label="item.nname"
-									:value="item.id" v-for="item in ndata">
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
 								</el-option>
 							</el-select>
 						</el-form-item>
@@ -277,7 +275,8 @@
 					</div>
 					<div class="add_from">
 						<el-form-item label="登记人">
-							<el-input v-model="cform.consultingRegistrant" placeholder="请输入内容" disabled="true"></el-input>
+							<el-input v-model="cform.consultingRegistrant" placeholder="请输入内容" disabled="true">
+							</el-input>
 						</el-form-item>
 					</div>
 					<div class="add_from">
@@ -401,15 +400,13 @@
 					</div>
 					<div class="add_from">
 						<el-form-item label="接待人">
-							<el-option :key="item.id" :label="item.nname"
-								:value="item.id" v-for="item in ndata">
+							<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
 							</el-option>
 						</el-form-item>
 					</div>
 					<div class="add_from">
 						<el-form-item label="登记人">
-							<el-option :key="item.id" :label="item.nname"
-								:value="item.id" v-for="item in ndata">
+							<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
 							</el-option>
 						</el-form-item>
 					</div>
@@ -448,7 +445,6 @@
 		defineComponent,
 		ref
 	} from 'vue'
-	import qs from 'qs'
 	export default defineComponent({
 		data() {
 			return {
@@ -486,16 +482,15 @@
 					consultingNote: ''
 				},
 				pageInfo1: {
-					what: "",
-					currentPage: 1,
-					pagesize: 2,
+					a: 1,
+					b: 2,
 					total: 0
 				},
 				updateConV: false,
 				addConV: false,
 				selectConV: false,
 				condata: [],
-				ndata:[]
+				ndata: []
 			};
 		},
 		methods: {
@@ -510,30 +505,28 @@
 			indexMethod(index) {
 				return index + 1;
 			},
-			handleSizeChange1(pagesize) {
+			handleSizeChange1(b) {
 				var _this = this
-				this.pageInfo1.pagesize = pagesize
-				var ps = qs.stringify(this.pageInfo1)
-				console.log(ps)
+				this.pageInfo1.b = b
 				this.axios.get("http://localhost:8188/selectAllConsulting", {
-						params: this.pageInfo1
+						params: _this.pageInfo1
 					})
 					.then(function(response) {
 						console.log(response.data)
-						_this.condata = response.data.list
+						_this.condata = response.data.data.list
 					}).catch(function(error) {
 						console.log(error)
 					})
 			},
-			handleCurrentChange1(currentPage) {
+			handleCurrentChange1(a) {
 				var _this = this
-				this.pageInfo1.currentPage = currentPage
-				var ps = qs.stringify(this.pageInfo1) // eslint-disable-line no-unused-vars
+				this.pageInfo1.a = a
+				console.log(this.pageInfo1.a)
 				this.axios.get("http://localhost:8188/selectAllConsulting", {
-						params: this.pageInfo1
+						params: _this.pageInfo1
 					})
 					.then(function(response) {
-						_this.condata = response.data.list
+						_this.condata = response.data.data.list
 					}).catch(function(error) {
 						console.log(error)
 					})
@@ -585,29 +578,41 @@
 				this.axios.post("http://localhost:8188/insertConsulting/" + this.addname, this.cform)
 					.then(function(response) {
 						console.log(response)
-						_this.$message({
-							type: 'success',
-							message: '添加成功'
-						})
+						if (response.data.code == 200) {
+							_this.$message({
+								type: 'success',
+								message: '添加成功'
+							})
+							_this.axios.get("http://localhost:8188/selectAllConsulting", {
+								params: _this.pageInfo1
+							}).then(function(response) {
+								console.log(response)
+								_this.condata = response.data.data.list
+								_this.pageInfo1.total = response.data.data.total
+							}).catch(function(error) {
+								console.log(error)
+							})
+						} else {
+							_this.$message({
+								type: 'info',
+								message: '添加失败'
+							});
+						}
+
 						_this.addConV = false
 						for (var key in _this.cform) {
 							delete _this.cform[key]
 						}
-						_this.axios.get("http://localhost:8188/selectAllConsulting", {
-							params: _this.pageInfo1
-						}).then(function(response) {
-							console.log(response)
-							_this.condata = response.data.list
-							_this.pageInfo1.total = response.data.total
-						}).catch(function(error) {
-							console.log(error)
-						})
+
 					}).catch(function(error) {
 						console.log(error)
 						_this.$message({
 							type: 'info',
 							message: '添加失败'
 						});
+						for (var key in _this.cform) {
+							delete _this.cform[key]
+						}
 					})
 			},
 			updatecon() {
@@ -615,30 +620,41 @@
 				this.axios.put("http://localhost:8188/updateConsulting", this.cform)
 					.then(function(response) {
 						console.log(response)
-						console.log(_this.cform.consultingContent)
-						_this.$message({
-							type: 'success',
-							message: '修改成功'
-						})
+						if (response.data.code == 200) {
+							_this.$message({
+								type: 'success',
+								message: '修改成功'
+							})
+							_this.axios.get("http://localhost:8188/selectAllConsulting", {
+								params: _this.pageInfo1
+							}).then(function(response) {
+								console.log(response)
+								_this.condata = response.data.data.list
+								_this.pageInfo1.total = response.data.data.total
+							}).catch(function(error) {
+								console.log(error)
+							})
+						} else {
+							_this.$message({
+								type: 'info',
+								message: '修改失败'
+							});
+						}
+
 						_this.updateConV = false
 						for (var key in _this.cform) {
 							delete _this.cform[key]
 						}
-						_this.axios.get("http://localhost:8188/selectAllConsulting", {
-							params: _this.pageInfo1
-						}).then(function(response) {
-							console.log(response)
-							_this.condata = response.data.list
-							_this.pageInfo1.total = response.data.total
-						}).catch(function(error) {
-							console.log(error)
-						})
+
 					}).catch(function(error) {
 						console.log(error)
 						_this.$message({
 							type: 'info',
 							message: '修改失败'
 						});
+						for (var key in _this.cform) {
+							delete _this.cform[key]
+						}
 					})
 			},
 			deletecon(row) {
@@ -652,19 +668,27 @@
 					this.axios.put("http://localhost:8188/deleteConsulting", this.cform)
 						.then(function(response) {
 							console.log(response)
-							_this.axios.get("http://localhost:8188/selectAllConsulting", {
-								params: _this.pageInfo1
-							}).then(function(response) {
-								console.log(response)
-								_this.condata = response.data.list
-								_this.pageInfo1.total = response.data.total
-							}).catch(function(error) {
-								console.log(error)
-							})
-							_this.$message({
-								type: 'success',
-								message: '删除成功'
-							});
+							if (response.data.code == 200) {
+								_this.axios.get("http://localhost:8188/selectAllConsulting", {
+									params: _this.pageInfo1
+								}).then(function(response) {
+									console.log(response)
+									_this.condata = response.data.data.list
+									_this.pageInfo1.total = response.data.data.total
+								}).catch(function(error) {
+									console.log(error)
+								})
+								_this.$message({
+									type: 'success',
+									message: '删除成功'
+								});
+							} else {
+								_this.$message({
+									type: 'info',
+									message: '删除失败'
+								});
+							}
+
 							for (var key in _this.cform) {
 								delete _this.cform[key]
 							}
@@ -691,22 +715,24 @@
 		},
 		created() {
 			const _this = this
+			console.log(this.pageInfo1.a)
 			this.axios.get("http://localhost:8188/selectAllConsulting", {
-				params: this.pageInfo1
-			}).then(function(response) {
-				console.log(response)
-				_this.condata = response.data.list
-				_this.pageInfo1.total = response.data.total
-			}).catch(function(error) {
-				console.log(error)
-			})
+					params: this.pageInfo1
+				})
+				.then(function(response) {
+					console.log(response)
+					_this.condata = response.data.data.list
+					_this.pageInfo1.total = response.data.data.total
+				}).catch(function(error) {
+					console.log(error)
+				})
 			this.axios.get("http://localhost:8188/selectAllNurse")
-			.then(function(response) {
-				console.log(response)
-				_this.ndata = response.data
-			}).catch(function(error) {
-				console.log(error)
-			})
+				.then(function(response) {
+					console.log(response)
+					_this.ndata = response.data.data
+				}).catch(function(error) {
+					console.log(error)
+				})
 		}
 	});
 </script>
