@@ -163,24 +163,21 @@
         <el-table-column prop="cz" label="操作" width="250px">
           <template #default="scope">
             <el-button
-              type="text"
               class="el-icon-edit"
-              size="samll"
+              size="mini"
               v-if="tableData[scope.$index].userId != 1"
               >修改</el-button
             >
             <el-button
-              type="text"
               class="el-icon-delete"
-              size="samll"
+              size="mini"
               @click="delet(scope.$index)"
               v-if="tableData[scope.$index].userId != 1"
               >删除</el-button
             >
             <el-button
-              type="text"
               class="el-icon-key"
-              size="samll"
+              size="mini"
               @click="change(scope.$index)"
               >重置</el-button
             >
@@ -435,8 +432,8 @@ export default {
           type: 'warning',
         }
       ).then(() => {
-        this.form.userId = this.tableData[index].userId
-        this.form.delFlag = -1
+        this.form.userId = this.tableData[index].id
+        this.form.userFlag = -1
         this.update(-1)
       })
     },
@@ -448,9 +445,8 @@ export default {
         userPhone: '',
         userSex: '',
         userState: '',
-        updatedBy: '',
-        delFlag: '',
-        remark: '',
+        updateDate: '',
+        userFlag: '',
         roles: [],
       }
       this.thisusername = this.tableData[index].userName
@@ -535,17 +531,16 @@ export default {
       )
         .then(({ value }) => {
           this.form = {
-            userId: '',
+            id: '',
             userName: '',
             userPhone: '',
             userSex: '',
             userState: '',
-            updatedBy: '',
-            delFlag: '',
-            remark: '',
+            updateDate: '',
+            userFlag: '',
             roles: [],
           }
-          this.form.userId = this.tableData[index].userId
+          this.form.id = this.tableData[index].id
           this.form.userPass = value
           this.update()
         })
