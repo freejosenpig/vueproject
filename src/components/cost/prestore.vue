@@ -47,6 +47,7 @@
 
 <script>
 	import qs from 'qs'
+	import { ElMessage } from 'element-plus'
 	export default{
 		data(){
 			return{
@@ -84,20 +85,56 @@
 			updatePreByKey(row){
 				const _this=this
 				this.updateform.prestoreId=row.prestoreId
-				this.axios.put("http://localhost:8188/updateById",this.updateform)
+				this.$confirm('此操作将删除该数据, 是否继续?', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(()=>{
+						_this.axios.put("http://localhost:8188/updatePreByKey",this.updateform)
 				.then(function(response){
-					console.log(response)
 					_this.axios.get("http://localhost:8188/selectPreAll",{params:_this.pageInfo})
-					.then(function(response){
-						console.log(response)
-						_this.tableData=response.data.list
-						_this.pageInfo.total = response.data.total
-					}).catch(function(error){
-						console.log(error)
-					})
-				}).catch(function(error){
-					console.log(error)
+							.then(function(response) {
+								console.log(response)
+								_this.tableData=response.data.list
+								_this.pageInfo.total = response.data.total
+							}).catch(function(error) {
+								console.log(error)
+							})
+							ElMessage.success({
+							   message: '删除成功',
+							   type: 'success'
+							})
+						}).catch(function(error){
+							console.log(error)
+				      })
+				}).catch(function(){
+					this.$message({
+						type: 'error',
+						message: '取消删除!'
+					});
 				})
+				
+				
+				// const _this=this
+				// this.updateform.prestoreId=row.prestoreId
+				// this.axios.put("http://localhost:8188/updatePreByKey",this.updateform)
+				// .then(function(response){
+				// 	console.log(response)
+				// 	_this.axios.get("http://localhost:8188/selectPreAll",{params:_this.pageInfo})
+				// 	.then(function(response){
+				// 		console.log(response)
+				// 		_this.tableData=response.data.list
+				// 		_this.pageInfo.total = response.data.total
+				// 	}).catch(function(error){
+				// 		console.log(error)
+				// 	})
+				// 	ElMessage.success({
+				// 	   message: '删除成功',
+				// 	   type: 'success'
+				// 	})
+				// }).catch(function(error){
+				// 	console.log(error)
+				// })
 			},
 			handleSizeChange(pagesize) {
 			    var _this=this
