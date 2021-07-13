@@ -35,27 +35,18 @@
           <el-form-item label="所属角色：" prop="roles">
             <el-select
               v-model="form.roles"
-              value-key="roleId"
+              value-key="id"
               multiple
               placeholder="请选择"
             >
               <el-option
                 v-for="item in options"
-                :key="item.roleId"
+                :key="item.id"
                 :label="item.roleName"
                 :value="item"
               >
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="备注：">
-            <el-input
-              type="textarea"
-              :rows="3"
-              placeholder="请填写用户备注"
-              v-model.trim="form.remark"
-            >
-            </el-input>
           </el-form-item>
         </el-form>
         <template #footer>
@@ -95,27 +86,18 @@
           <el-form-item label="所属角色：" prop="roles">
             <el-select
               v-model="add.roles"
-              value-key="roleId"
+              value-key="id"
               multiple
               placeholder="请选择"
             >
               <el-option
                 v-for="item in options"
-                :key="item.roleId"
+                :key="item.id"
                 :label="item.roleName"
                 :value="item"
               >
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="备注：">
-            <el-input
-              type="textarea"
-              :rows="3"
-              placeholder="请填写用户备注"
-              v-model.trim="add.remark"
-            >
-            </el-input>
           </el-form-item>
           注：用户初始默认密码为123456,如需更改可在创建后操作
         </el-form>
@@ -155,7 +137,7 @@
         <el-table-column prop="userSex" label="用户性别" />
         <el-table-column prop="userState" label="帐号状态">
           <template #default="scope">
-            {{ tableData[scope.$index].userState == 1 ? '正常' : '禁用' }}
+            {{ tableData[scope.$index].userState == 0 ? '正常' : '禁用' }}
           </template>
         </el-table-column>
         <el-table-column prop="createDate" label="创建时间" width="200px" />
@@ -165,14 +147,15 @@
             <el-button
               class="el-icon-edit"
               size="mini"
-              v-if="tableData[scope.$index].userId != 1"
+              v-if="tableData[scope.$index].id != 0 "
+              @click="changeall(scope.$index)"
               >修改</el-button
             >
             <el-button
               class="el-icon-delete"
               size="mini"
               @click="delet(scope.$index)"
-              v-if="tableData[scope.$index].userId != 1"
+              v-if="tableData[scope.$index].id != 0"
               >删除</el-button
             >
             <el-button
@@ -303,8 +286,7 @@ export default {
         userPass: '123456',
         userSex: '男',
         userState: true,
-        founder: '',
-        remark: '',
+        userFlag: 0,
         roles: [],
       }
       this.dialogaddVisible = true
@@ -341,14 +323,11 @@ export default {
             this.add.founder = state.userInfo.userName
             var _this = this
             this.axios({
-              url: 'http://localhost:8088/frameproject/systempower/addnewuser',
+              url: 'http://localhost:8188/sysUser/addnewuser',
               method: 'post',
               data: {
                 user: JSON.stringify(_this.add),
                 roles: JSON.stringify(_this.add.roles),
-              },
-              headers: {
-                JWTDemo: state.userInfo.token,
               },
             })
               .then(function (response) {
@@ -377,17 +356,14 @@ export default {
     //修改
     update(type) {
       const state = JSON.parse(sessionStorage.getItem('state'))
-      this.form.updatedBy = state.userInfo.userName
       var _this = this
+      console
       this.axios({
-        url: 'http://localhost:8088/frameproject/systempower/changeuesr',
+        url: 'http://localhost:8188/sysUser/changeuesr',
         method: 'post',
         data: {
           user: JSON.stringify(_this.form),
           roles: JSON.stringify(_this.form.roles),
-        },
-        headers: {
-          JWTDemo: state.userInfo.token,
         },
       })
         .then(function (response) {
@@ -419,8 +395,7 @@ export default {
         userSex: '',
         userState: '',
         updatedBy: '',
-        delFlag: '',
-        remark: '',
+        userFlag: '',
         roles: [],
       }
       this.$confirm(
@@ -432,7 +407,7 @@ export default {
           type: 'warning',
         }
       ).then(() => {
-        this.form.userId = this.tableData[index].id
+        this.form.id = this.tableData[index].id
         this.form.userFlag = -1
         this.update(-1)
       })
@@ -440,7 +415,7 @@ export default {
     //修改所有数据
     changeall(index) {
       this.form = {
-        userId: '',
+        id: '',
         userName: '',
         userPhone: '',
         userSex: '',
@@ -454,7 +429,7 @@ export default {
       const state = JSON.parse(sessionStorage.getItem('state'))
       var _this = this
       this.axios({
-        url: 'http://localhost:8088/frameproject/systempower/findroles',
+        url: 'http://localhost:8188/sysUser/findroles',
         method: 'post',
         params: { username: _this.tableData[index].userName },
       })
@@ -468,11 +443,11 @@ export default {
       this.dialogFormVisible = true
       //获取选中行的值
 
-      this.form.userId = this.tableData[index].userId
+      this.form.id = this.tableData[index].id
       this.form.userName = this.tableData[index].userName
       this.form.userPhone = this.tableData[index].userPhone
       this.form.userSex = this.tableData[index].userSex
-      this.form.remark = this.tableData[index].remark
+      //是0就是启用状态，非0则是禁用状态
       this.tableData[index].userState == 0
         ? (this.form.userState = true)
         : (this.form.userState = false)
@@ -533,6 +508,7 @@ export default {
           this.form = {
             id: '',
             userName: '',
+            userPass:'',
             userPhone: '',
             userSex: '',
             userState: '',
