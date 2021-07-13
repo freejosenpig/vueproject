@@ -448,7 +448,7 @@
 								type: 'success',
 								message: '修改成功'
 							})
-							_this.axios.get("http://localhost:8188/selectAllOldpeople", {
+							_this.axios.get("http://localhost:8188/selectAllOldpeoplePageInfo", {
 									params: _this.pageInfo1
 								})
 								.then(function(response) {
@@ -511,7 +511,7 @@
 			handleSizeChange1(pagesize) {
 				var _this = this
 				this.pageInfo1.pagesize = pagesize
-				this.axios.get("http://localhost:8188/selectAllOldpeople", {
+				this.axios.get("http://localhost:8188/selectAllOldpeoplePageInfo", {
 						params: _this.pageInfo1
 					})
 					.then(function(response) {
@@ -524,7 +524,7 @@
 			handleCurrentChange1(currentPage) {
 				var _this = this
 				this.pageInfo1.currentPage = currentPage
-				this.axios.get("http://localhost:8188/selectAllOldpeople", {
+				this.axios.get("http://localhost:8188/selectAllOldpeoplePageInfo", {
 						params: _this.pageInfo1
 					})
 					.then(function(response) {
@@ -536,7 +536,7 @@
 		},
 		created() {
 			const _this = this
-			this.axios.get("http://localhost:8188/selectAllOldpeople", {
+			this.axios.get("http://localhost:8188/selectAllOldpeoplePageInfo", {
 					params: this.pageInfo1
 				})
 				.then(function(response) {
