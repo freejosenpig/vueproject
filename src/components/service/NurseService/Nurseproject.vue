@@ -3,37 +3,35 @@
   <div class="userlist">
     <!-- 标题 -->
     <div class="page-tag">
-      <span style="float: left">护理登记</span>
+      <span style="float: left">护理项目管理</span>
       <!-- 标签页 -->
     </div>
     <!-- 表体内容 -->
     <div class="userlist-mian">
        <!-- 修改 -->
-      <el-dialog title="登记修改" v-model="dialogFormVisible" width="35%" :before-close="close">
+      <el-dialog title="项目修改" v-model="dialogFormVisible" width="35%" :before-close="close">
         <el-form :model="add">
-        <el-form-item label="老人姓名：" prop="rname">
-            <el-input v-model.trim="add.rname" placeholder="请填写姓名" style="width: 250px" />  
+        <el-form-item label="项目名称" prop="planName">
+            <el-input v-model.trim="add.planName" placeholder="请填写" style="width: 250px" />  
           </el-form-item>
-          <el-form-item label="护理时间：" prop="rtime">
-           	<input type="date" v-model="add.rtime" style="width: 200px;background-color: white;
-					border: 1px #B3C0D1 solid;color: #8C939D;border-radius: 4px;text-align: center;" placeholder="请选择时间" />
+          <el-form-item label="护理类型：" prop="ptype">
+           <el-input v-model.trim="add.ptype" placeholder="请填写" style="width: 250px" />  
           </el-form-item>
-          <el-form-item label="完成情况：">
-            <el-radio v-model="add.rfinish" label="已完成">已完成</el-radio>
-            <el-radio v-model="add.rfinish" label="未完成">未完成</el-radio>
+          <el-form-item label="护理方式：" prop="pway">
+            <el-input v-model.trim="add.pway" placeholder="请填写" style="width: 250px" /> 
           </el-form-item>
-		      <el-form-item label="护理小组：" prop="rteam">
-            <el-input v-model.trim="add.rteam" style="width: 250px" placeholder="请填写护理小组" />
+		      <el-form-item label="项目费用：" prop="pmonry">
+            <el-input v-model.trim="add.pmonry" style="width: 250px" placeholder="请填写" />
           </el-form-item>
-          <el-form-item label="护理人员：" prop="rpeople">
-            <el-input v-model.trim="add.rpeople" style="width: 250px" placeholder="请填护理人员" />
+          <el-form-item label="所需时间：" prop="ptime">
+            <el-input v-model.trim="add.ptime" style="width: 250px" placeholder="请填" />
           </el-form-item>
-          <el-form-item label="注意事项：">
+          <el-form-item label="项目介绍：">
             <el-input
               type="textarea"
               :rows="3"
-              placeholder="请填写注意事项"
-              v-model.trim="add.rann"
+              placeholder="请填写"
+              v-model.trim="add.pintroduce"
             >
             </el-input>
           </el-form-item>  
@@ -49,31 +47,29 @@
       </el-dialog> 
 
       <!-- 新增 -->
-      <el-dialog title="新增登记" v-model="dialogaddVisible" width="35%">
+      <el-dialog title="新增项目" v-model="dialogaddVisible" width="35%">
         <el-form :model="add"  ref="add">
-          <el-form-item label="老人姓名：" prop="rname">
-            <el-input v-model.trim="add.rname" placeholder="请填写姓名" style="width: 250px" />  
+          <el-form-item label="项目名称" prop="planName">
+            <el-input v-model.trim="add.planName" placeholder="请填写" style="width: 250px" />  
           </el-form-item>
-          <el-form-item label="护理时间：" prop="rtime">
-           	<input type="date" v-model="add.rtime" style="width: 200px;background-color: white;
-					border: 1px #B3C0D1 solid;color: #8C939D;border-radius: 4px;text-align: center;" placeholder="请选择时间" />
+          <el-form-item label="护理类型：" prop="ptype">
+           <el-input v-model.trim="add.ptype" placeholder="请填写" style="width: 250px" />  
           </el-form-item>
-          <el-form-item label="完成情况：">
-            <el-radio v-model="add.rfinish" label="已完成">已完成</el-radio>
-            <el-radio v-model="add.rfinish" label="未完成">未完成</el-radio>
+          <el-form-item label="护理方式：" prop="pway">
+            <el-input v-model.trim="add.pway" placeholder="请填写" style="width: 250px" /> 
           </el-form-item>
-		      <el-form-item label="护理小组：" prop="rteam">
-            <el-input v-model.trim="add.rteam" style="width: 250px" placeholder="请填写护理小组" />
+		      <el-form-item label="项目费用：" prop="pmonry">
+            <el-input v-model.trim="add.pmonry" style="width: 250px" placeholder="请填写" />
           </el-form-item>
-          <el-form-item label="护理人员：" prop="rpeople">
-            <el-input v-model.trim="add.rpeople" style="width: 250px" placeholder="请填护理人员" />
+          <el-form-item label="所需时间：" prop="ptime">
+            <el-input v-model.trim="add.ptime" style="width: 250px" placeholder="请填" />
           </el-form-item>
-          <el-form-item label="注意事项：">
+          <el-form-item label="项目介绍：">
             <el-input
               type="textarea"
               :rows="3"
               placeholder="请填写注意事项"
-              v-model.trim="add.rann"
+              v-model.trim="add.pintroduce"
             >
             </el-input>
           </el-form-item>  
@@ -96,7 +92,7 @@
         >
         <!-- 模糊查询 -->
         <div style="float: right">
-            老人姓名：
+            项目名称：
           <el-input
             clearable
             v-model="vagueorderid"
@@ -104,32 +100,20 @@
             style="width: 200px"
             size="large"
           />
-           护工名称：
-          <el-input
-            clearable
-            v-model="vagueorderid1"
-            placeholder="请输入"
-            style="width: 200px"
-            size="large"
-          />
-            完成情况：
-		  <el-select v-model="vagueorderid2" placeholder="请选择" clearable  style="higt:100px" >
-				<el-option label="已完成" value="已完成"></el-option>
-				<el-option label="未完成" value="未完成"></el-option> 
-            </el-select>
+          
           <el-button icon="el-icon-search" size="large" @click="join()" 
             >查询</el-button
           >
         </div>
       </div>
       <el-table :data="tableData" style="width: 100%; margin-bottom: 20px">
-        <el-table-column prop="id" label="记录编号" />
-        <el-table-column prop="rname" label="老人名称" />
-        <el-table-column prop="rtime" label="护理时间" />
-        <el-table-column prop="rfinish" label="护理完成情况"/>
-        <el-table-column prop="rteam" label="护理团队" width="200px" />
-        <el-table-column prop="rpeople" label="护理员工" width="200px" />
-        <el-table-column prop="rann" label="注意事项" />
+        <el-table-column prop="id" label="项目编号" />
+        <el-table-column prop="planName" label="项目名称" />
+        <el-table-column prop="ptype" label="护理类型" />
+        <el-table-column prop="pway" label="护理方式"/>
+        <el-table-column prop="pmonry" label="项目费用" width="200px" />
+        <el-table-column prop="ptime" label="所需时间" width="200px" />
+        <el-table-column prop="pintroduce" label="项目介绍" />
         <el-table-column prop="cz" label="操作" width="250px">
           <template #default="scope">
             <el-button
@@ -181,24 +165,24 @@ export default {
 	  
       form: {
         id: '',
-        rname: '',
-        rtime: '',
-        rfinish: '',
-        rteam: '',
-        rpeople: '',
-        rann: ''
+        planName: '',
+        ptype: '',
+        pway: '',
+        pmonry: '',
+        ptime: '',
+        pintroduce: '',
       },
       add: {
         id: '',
-        rname: '',
-        rtime: '',
-        rfinish: '',
-        rteam: '',
-        rpeople: '',
-        rann: ''
+        planName: '',
+        ptype: '',
+        pway: '',
+        pmonry: '',
+        ptime: '',
+        pintroduce: '',
       },
       options: [],
-      condition: { rname: '' ,rpeople: '',rfinish:''}, //查询条件
+      condition: { planName: ''}, //查询条件
       thisusername: '',
       thisuserphone: '',
       vagueorderid: '',
@@ -213,21 +197,19 @@ export default {
   methods: {
     //模糊查询
     join() {
-      this.condition.rname = this.vagueorderid,
-      this.condition.rpeople = this.vagueorderid1,
-	    this.condition.rfinish = this.vagueorderid2
+      this.condition.planName = this.vagueorderid
       this.findpage()
     },
     //新增
     addnew() {
       this.add = {
         id: '',
-        rname: '',
-        rtime: '',
-        rfinish: '',
-        rteam: '',
-        rpeople: '',
-        rann: '',
+        planName: '',
+        ptype: '',
+        pway: '',
+        pmonry: '',
+        ptime: '',
+        pintroduce: '',
       }
       this.dialogaddVisible = true
     },
@@ -235,16 +217,16 @@ export default {
     addnewok(formName) {
 	  var _this = this
 		this.add.createPeople = this.$store.state.userInfo.userName
-		this.axios.post("http://localhost:8188/NurseLog/addNurse",this.add)      
+		this.axios.post("http://localhost:8188/NurseProject/addNurse",this.add)      
         .then(function(response) {
-         this.dialogaddVisible = false;
+         _this.dialogaddVisible = false;
 						console.log(response)
 							ElMessage.success({
                     		message: '用户信息添加成功',
                     		type: 'success',
                   			})
                   _this.findpage()
-						_this.axios.get("http://localhost:8188/NurseLog/selectAll").then(function(response) {
+						_this.axios.get("http://localhost:8188/NurseProject/selectAll").then(function(response) {
 							console.log(response)
 							_this.tableData = response.data.data			
 						}).catch(function(error) {
@@ -261,19 +243,19 @@ export default {
     //修改显示
     updateconshow(row) {
 				this.add.id = row.id
-        this.add.rname = row.rname
-       	this.add.rtime = row.rtime
-       	this.add.rfinish = row.rfinish
-       	this.add.rteam = row.rteam
-       	this.add.rpeople = row.rpeople
-       	this.add.rann = row.rann
+                this.add.planName = row.planName
+                this.add.ptype = row.ptype
+                this.add.pway = row.pway
+                this.add.pmonry = row.pmonry
+                this.add.ptime = row.ptime
+                this.add.pintroduce = row.pintroduce
 				this.dialogFormVisible = true
 			},
     //修改
     update() {
       var _this = this
       console.log(_this.form)
-      this.axios.post("http://localhost:8188/NurseLog/updateNurse", this.add)
+      this.axios.post("http://localhost:8188/NurseProject/updateNurse", this.add)
         .then(function (response) {
          console.log(response)
             	ElMessage.success({
@@ -281,7 +263,7 @@ export default {
                     		type: 'success',
                   			})
 						_this.dialogFormVisible = false
-						_this.axios.get("http://localhost:8188/NurseLog/selectAll", {
+						_this.axios.get("http://localhost:8188/NurseProject/selectAll", {
 						}).then(function(response) {
 							console.log(response)
 							_this.tableData = response.data.list
@@ -300,15 +282,15 @@ export default {
     delet(index) {
       this.form = {
         id: '',
-        rname: '',
-        rtime: '',
-        rfinish: '',
-        rteam: '',
-        rpeople: '',
-        rann: '',
+        planName: '',
+        ptype: '',
+        pway: '',
+        pmonry: '',
+        ptime: '',
+        pintroduce: '',
       }
       this.$confirm(
-        '是否确认删除用户名为‘' + this.tableData[index].rname + '’的数据项',
+        '是否确认删除用户名为‘' + this.tableData[index].planName + '’的数据项',
         '提示',
         {
           confirmButtonText: '确定',
@@ -317,7 +299,7 @@ export default {
         }
       ).then(() => {
         this.form.id = this.tableData[index].id
-        this.axios.get("http://localhost:8188/NurseLog/delete/"+this.form.id, this.form)
+        this.axios.get("http://localhost:8188/NurseProject/delete/"+this.form.id, this.form)
         .then(function(response) {
                 ElMessage.success({
                   message: '用户信息删除成功',
@@ -344,7 +326,7 @@ export default {
       const state = JSON.parse(sessionStorage.getItem('state'))
       var _this = this
       this.axios({
-        url: 'http://localhost:8188/NurseLog/conditionpageuser',
+        url: 'http://localhost:8188/NurseProject/conditionpageuser',
         method: 'post',
         data: {
           currentPage: _this.currentPage,
