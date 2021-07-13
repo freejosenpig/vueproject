@@ -43,52 +43,7 @@
           </div>
         </el-tab-pane>
 
-        <!-- 快捷登录 -->
-        <el-tab-pane label="快捷登录" name="second">
-          <div style="float: left; margin-top: 250px">
-            <el-form
-              ref="loginFormgo"
-              :rules="loginFormRulesgo"
-              :model="loginFormgo"
-              label-width="0px"
-              class="login_form"
-            >
-              <!-- 手机号-->
-              <el-form-item prop="userPhone">
-                <el-input
-                  prefix-icon="el-icon-phone"
-                  placeholder="请输入手机号"
-                  maxlength="11"
-                  v-model="loginFormgo.userPhone"
-                  clearable
-                ></el-input>
-              </el-form-item>
-              <!-- 验证码-->
-              <el-form-item prop="userMessage">
-                <el-input
-                  prefix-icon="el-icon-s-comment"
-                  placeholder="请输入验证码"
-                  v-model="loginFormgo.userMessage"
-                  maxlength="6"
-                  style="width: 65%"
-                  clearable
-                ></el-input>
-                <el-button class="gain" :disabled="reset" @click="getcode(0)">
-                  {{ reset ? `${djs}秒后再次获取` : "获取验证码" }}</el-button
-                >
-              </el-form-item>
-              <el-form-item class="btus">
-                <!-- 确认登录-->
-                <el-button
-                  type="primary"
-                  @click="gologin()"
-                  style="width: 415px"
-                  >登录</el-button
-                >
-              </el-form-item>
-            </el-form>
-          </div>
-        </el-tab-pane>
+        
       </el-tabs>
     </div>
   </div>
