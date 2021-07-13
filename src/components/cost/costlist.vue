@@ -28,6 +28,7 @@
 
 <script>
 	import qs from 'qs'
+	import { ElMessage } from 'element-plus'
 	export default{
 		data(){
 			return{
@@ -50,20 +51,54 @@
 			updateListByKey(row){
 				const _this=this
 				this.updateform.listId=row.listId
-				this.axios.put("http://localhost:8188/updateListByKey",this.updateform)
+				this.$confirm('此操作将删除该数据, 是否继续?', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+					}).then(()=>{
+					_this.axios.put("http://localhost:8188/updateListByKey",_this.updateform)
 				.then(function(response){
-					console.log(response)
 					_this.axios.get("http://localhost:8188/selectAll",{params:_this.pageInfo})
-					.then(function(response){
+					.then(function(response) {
 						console.log(response)
 						_this.tableData=response.data.list
 						_this.pageInfo.total = response.data.total
-					}).catch(function(error){
+						ElMessage.success({
+						   message: '删除成功',
+						   type: 'success'
+						})
+					}).catch(function(error) {
 						console.log(error)
 					})
+					
 				}).catch(function(error){
 					console.log(error)
 				})
+				}).catch(function(){
+					_this.$message({
+						type: 'error',
+						message: '取消删除!'
+					})
+				})
+				// this.updateform.listId=row.listId
+				// this.axios.put("http://localhost:8188/updateListByKey",this.updateform)
+				// .then(function(response){
+				// 	console.log(response)
+				// 	_this.axios.get("http://localhost:8188/selectAll",{params:_this.pageInfo})
+				// 	.then(function(response){
+				// 		console.log(response)
+				// 		_this.tableData=response.data.list
+				// 		_this.pageInfo.total = response.data.total
+				// 		ElMessage.success({
+				// 			message: '删除成功',
+				// 			type: 'success'
+				// 		})
+				// 	}).catch(function(error){
+				// 		console.log(error)
+				// 	})
+				// }).catch(function(error){
+				// 	console.log(error)
+				// })
 			},
 			selectByname() {
 				const _this = this
