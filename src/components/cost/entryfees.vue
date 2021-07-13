@@ -13,6 +13,21 @@
 	  	  </el-form-item>
 	  </el-form>
 	</div>
+	<!-- 入住缴费 -->
+	<div style="width:100%;height: 50px;" class="addiv" v-bind:style="styleObject">
+		<el-col>
+			<el-form :model="jiesuanForm">
+				缴费老人:
+				<el-input v-model="jiesuanForm.oldpeopleName" style="width: 130px;"></el-input>
+				应缴总额:
+				<el-input v-model="jiesuanForm.backEntryfeesMoney" style="width: 130px;"></el-input>
+				实收金额:
+				<el-input v-model="jiesuanForm.backMoney" style="width: 130px;"></el-input>
+				<el-button @click="addPrestore" style="width: 130px;margin-left: 20px;" type="primary">确定结算</el-button>
+				<el-button @click="addcancel" style="width: 130px;margin-left: 20px;" type="danger">取消结算</el-button>
+			</el-form>
+		</el-col>
+	</div>
 	<el-table  :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
 	  <el-table-column type="index"  label="编号" align="center">  </el-table-column>
 	  <el-table-column  prop="jdOldpeople.oldpeopleName" label="老人姓名" align="center" >  </el-table-column>
@@ -24,11 +39,12 @@
 	  <el-table-column prop="entryfeesExplain" label="收费说明" align="center"> </el-table-column>
 	  <el-table-column  label="操作" align="center">
 		  <template #default="scope">
-		        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-		        <el-button   size="mini" type="danger"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+		        <el-button  size="mini" type="danger"  @click="handleJiaofei(scope.row)">缴费</el-button>
 		  </template>
 	  </el-table-column>
 	</el-table>
+	
+	
 </template>
 
 <script>
@@ -41,11 +57,34 @@
 				},
 				//老人信息
 				olddata:[],
-				tableData:[]
+				tableData:[],
+				jiesuanForm: {
+					oldpeopleName: "",
+					backEntryfeesMoney: "",
+					backMoney: "",
+					lastmoney: "",
+					oldpeopleId:""
+				},
+				styleObject: {
+					display: 'none'
+				}
 			}
 		},
 		methods:{
-			
+			handleJiaofei(row) {
+				const _this = this
+				this.jiesuanDia = true
+				this.styleObject.display = 'block'
+				this.axios.get("http://localhost:8188/selectEntryAll")
+				.then(function(response){
+					console.log(response)
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			addcancel() {
+				this.styleObject.display = 'none'
+			}
 		},
 		created() {
 			const _this=this
