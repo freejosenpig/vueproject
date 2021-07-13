@@ -3,11 +3,11 @@
     <!-- 头部信息 -->
     <el-header style="height: 50px">
       <div class="el-header-div1">
-        <!-- <img
+        <img
           height="25"
           style="vertical-align: middle; vertical-align: -5px"
-          src="../assets/img/mv.jpg"
-        /> -->
+          src="../assets/img/ico.png"
+        />
         <span>智慧养老</span>
       </div>
       <!-- 用户信息 -->
