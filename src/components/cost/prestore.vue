@@ -17,11 +17,11 @@
 		<!-- 新增预存表单 -->
 		<div style="width:100%;height: 50px;" class="addiv"  v-bind:style="styleObject">
 			<el-col>
-				缴费老人:
+				预存老人:
 				<el-select v-model="oldpeopleName" style="width: 130px;">
 					<el-option v-for="old in olddata" :value="old.oldpeopleId" :label="old.oldpeopleName"></el-option>
 				 </el-select>
-				 缴费金额:
+				 预存金额:
 				 <el-input v-model="prestoreMoney" style="width: 130px;"></el-input>
 				 <el-button @click="addPrestore" style="width: 130px;margin-left: 20px;" type="primary">确定预存</el-button>
 				 <el-button @click="addcancel" style="width: 130px;margin-left: 20px;" type="danger">取消预存</el-button>
@@ -69,7 +69,6 @@
 			},
 			//新增预存
 			addPrestore(){
-				
 				const _this=this
 				this.axios.post("http://localhost:8188/insertprestore",this.prestoreForm)
 				.then(function(response){
@@ -100,6 +99,13 @@
 			.then(function(response){
 				console.log(response)
 				_this.tableData=response.data
+			}).catch(function(error){
+				console.log(error)
+			})
+			this.axios.get("http://localhost:8188/selectAllOldpeople")
+			.then(function(response){
+				console.log(response)
+				_this.olddata=response.data
 			}).catch(function(error){
 				console.log(error)
 			})

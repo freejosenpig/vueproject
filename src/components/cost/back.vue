@@ -27,8 +27,13 @@
 		</el-table-column>
 		<el-table-column label="操作" align="center">
 			<template #default="scope">
-				<el-button size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
-				<el-button size="mini" type="primary" @click="handleJieSuan(scope.row)">结算</el-button>
+				<p v-if="scope.row.istoback==0">
+					<el-button size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+					<el-button size="mini" type="primary" @click="handleJieSuan(scope.row)">结算</el-button>
+				</p>
+				<p v-if="scope.row.istoback==1">
+					<el-button size="mini" type="primary" circle="" icon="el-icon-check"></el-button>
+				</p>
 			</template>
 		</el-table-column>
 	</el-table>
@@ -44,11 +49,11 @@
 				<el-input v-model="jiesuanForm.backMoney" style="width: 130px;"></el-input>
 				<p v-if="jiesuanForm.lastmoney<0">
 					实收金额:
-					<el-input v-model="lastmoney" style="width: 130px;"></el-input>
+					<el-input v-model="jiesuanForm.lastmoney" style="width: 130px;"></el-input>
 				</p>
 				<p v-if="jiesuanForm.lastmoney>=0">
 					实退金额:
-					<el-input v-model="lastmoney" style="width: 130px;"></el-input>
+					<el-input v-model="jiesuanForm.lastmoney" style="width: 130px;"></el-input>
 				</p>
 				<el-button @click="addJiesuan" style="width: 100px;margin-left: 20px;" type="primary">确定结算</el-button>
 				<el-button @click="addcancel" style="width: 100px;margin-left: 20px;" type="danger">取消结算</el-button>
@@ -58,6 +63,7 @@
 </template>
 
 <script>
+	import { ElMessage } from 'element-plus'
 	export default {
 		data() {
 			return {
@@ -73,21 +79,79 @@
 					lastmoney: "",
 					oldpeopleId:""
 				},
+				updateAccount1:{
+					oldpeopleId:"",
+					oldpeopleAccount:""
+				},
+				totalAccount:"",
 				styleObject: {
 					display: 'none'
-				}
+				},
+				listForm:{
+					oldpeopleId:"",
+					listMoeny:"",
+					listExplain:"",
+					listRemark:""
+				},
 			}
 		},
 		methods: {
+			//新增一条流水
+			insertLCostist(oldpeopleId,lastmoney){
+				const _this=this
+				this.listForm.oldpeopleId=oldpeopleId
+				this.listForm.listMoeny=lastmoney
+				this.listForm.listExplain="退住结算"
+				this.listForm.listRemark="无"
+				this.axios.post("http://localhost:8188/insertLCostist",this.listForm)
+				.then(function(response){
+					console.log(response)
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			//修改为已结算
 			addJiesuan(){
 				const _this=this
 				console.log(this.jiesuanForm.oldpeopleId+"eee")
 				this.axios.put("http://localhost:8188/updateBackByKey",this.jiesuanForm)
 				.then(function(response){
 					console.log(response)
+					_this.updateAccount(_this.jiesuanForm.oldpeopleId,_this.jiesuanForm.lastmoney)
+					_this.insertLCostist(_this.jiesuanForm.oldpeopleId,_this.jiesuanForm.lastmoney)
+					ElMessage.success({
+					   message: '退住结算成功',
+					   type: 'success'
+					})
 					setTimeout(function () {
 					  window.location.reload()
 					}, 1000)
+				}).catch(function(error){
+					console.log(error)
+				})
+			},
+			//根据老人编号修改账户余额
+			updateAccount(OldId,account){
+				const _this=this
+				this.updateAccount1.oldpeopleId=OldId
+				this.updateAccount1.oldpeopleAccount=account
+				console.log(this.updateAccount1.oldpeopleId+"bbbb")
+				console.log(this.updateAccount1.oldpeopleAccount+"cccc")
+				//根据老人编号查询所有老人信息
+				this.axios.get("http://localhost:8188/selectByPrimaryKey/"+this.updateAccount1.oldpeopleId)
+				.then(function(response){
+					console.log(response)
+					_this.totalAccount=response.data.data.oldpeopleAccount
+					console.log(_this.totalAccount+"总账户")
+					console.log(response.data.data.oldpeopleAccount+"总账户")
+					_this.updateAccount1.oldpeopleAccount=_this.totalAccount-_this.jiesuanForm.backMoney
+					console.log(_this.updateAccount1.oldpeopleAccount+"剩余金额")
+					_this.axios.put("http://localhost:8188/updateAccount",_this.updateAccount1)
+					.then(function(response){
+						console.log(response)
+					}).catch(function(error){
+						console.log(error)
+					})
 				}).catch(function(error){
 					console.log(error)
 				})
@@ -98,27 +162,26 @@
 				this.styleObject.display = 'block'
 				this.jiesuanForm.oldpeopleName = row.jdOldpeople.oldpeopleName
 				this.axios.get("http://localhost:8188/selectBackByoldId/" + row.oldpeopleId)
-					.then(function(response) {
-						console.log(response)
-						_this.jiesuanForm.oldpeopleId=response.data.jdOldpeople.oldpeopleId
-						_this.jiesuanForm.backEntryfeesMoney = response.data.backEntryfeesMoney
-						_this.jiesuanForm.backMoney=response.data.backMoney
-						_this.jiesuanForm.lastmoney = response.data.backMoney - response.data.backEntryfeesMoney
-					}).catch(function(error) {
-						console.log(error)
-					})
+				.then(function(response) {
+					console.log(response)
+					_this.jiesuanForm.oldpeopleId=response.data.jdOldpeople.oldpeopleId
+					_this.jiesuanForm.backEntryfeesMoney = response.data.backEntryfeesMoney
+					_this.jiesuanForm.backMoney=response.data.backMoney
+					_this.jiesuanForm.lastmoney = response.data.backMoney - response.data.backEntryfeesMoney
+					console.log(_this.jiesuanForm.lastmoney+"last")
+				}).catch(function(error) {
+					console.log(error)
+				})	
 			},
 			selectByname() {
 				const _this = this
 				this.axios.get("http://localhost:8188/selectBycontion/" + this.formInline.oldpeopleName)
-					.then(function(response) {
-						console.log(response)
-						_this.tableData = response.data
-					}).catch(function(error) {
-						console.log(error)
-
-					})
-
+				.then(function(response) {
+					console.log(response)
+					_this.tableData = response.data
+				}).catch(function(error) {
+					console.log(error)
+				})	
 			},
 			addcancel() {
 				this.styleObject.display = 'none'
