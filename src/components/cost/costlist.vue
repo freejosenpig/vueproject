@@ -2,7 +2,7 @@
 	<h1>流水界面管理</h1>
 	<div>
 		 <span>老人姓名:</span>
-	  	 <el-input v-model="pageInfo.oldpeopleName" placeholder="老人姓名" style="width:160px;margin-bottom: 20px;"></el-input>
+	  	 <el-input v-model="pageInfo.oldpeopleName" placeholder="老人姓名" style="width:160px;margin-bottom: 20px;margin-right: 10px;"></el-input>
 		 <el-button type="primary" @click="selectByname" style="width: 80px;">查询</el-button>
 	</div>   
 	<el-table  :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
