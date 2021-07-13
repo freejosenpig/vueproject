@@ -101,52 +101,6 @@ export default {
     };
   },
   methods: {
-    //获取验证码
-    getcode(i) {
-      const _this = this;
-      if (i == 0) {
-        if (!/^1[34578]\d{9}$/.test(this.loginFormgo.userPhone)) {
-          ElMessage.error("请填写正确的手机号");
-        } else {
-          this.axios
-            .post(
-              "http://localhost:8088/frameproject/login/getcode/" +
-                _this.loginFormgo.userPhone
-            )
-            .then(function (response) {
-              ElMessage.success("验证码已发送,请注意查收");
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-          this.reset = true;
-          let timer = setInterval(() => {
-            this.djs--;
-            this.$store.commit("updatetime", {
-              thisdjs: this.djs,
-            }); //存入本地
-            if (this.djs <= 0) {
-              this.reset = false;
-              this.djs = 60;
-              clearInterval(timer);
-            }
-          }, 1000);
-        }
-      } else {
-        this.reset = true;
-        let timer = setInterval(() => {
-          this.djs--;
-          this.$store.commit("updatetime", {
-            thisdjs: this.djs,
-          }); //存入本地
-          if (this.djs <= 0) {
-            this.reset = false;
-            this.djs = 60;
-            clearInterval(timer);
-          }
-        }, 1000);
-      }
-    },
     //账户登录校验
     login() {
       const _this = this;
@@ -168,46 +122,6 @@ export default {
           console.log(error);
         });
     },
-    gologin() {
-      const _this = this;
-      var fd={
-        phone:_this.loginFormgo.userPhone,
-        code: _this.loginFormgo.userMessage
-      }
-      this.axios({
-        url: "http://localhost:8188/login/fast",
-        method: "post",
-        params: fd,
-      })
-        .then(function (response) {
-          if (typeof response.data.data == "string") {
-            ElMessage.error(response.data.data);
-          } else {
-            _this.$store.commit("setmenulists", response.data.data.menus);
-            _this.$store.commit("updateUserInfo", response.data.data);
-            _this.$router.push("/Home");
-            //动态路由
-            initDynamicRoutes();
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-  },
-  //
-  created() {
-    //先清空
-    window.sessionStorage.removeItem("menulists");
-    window.sessionStorage.removeItem("state");
-    //获取之前获取验证码的倒计时
-    if (
-      window.sessionStorage.getItem("djs") != null ||
-      window.sessionStorage.getItem("djs") > 0
-    ) {
-      this.djs = this.$store.state.thisdjs;
-      this.getcode(1);
-    }
   },
 };
 </script>
@@ -219,7 +133,7 @@ export default {
 .login_container {
   height: 100%;
   width: 100%;
-  background: url("../assets/img/bgimg.jpg");
+  background: url("../assets/img/bgimg.png");
   background-size: 100%
 }
 .gain {
