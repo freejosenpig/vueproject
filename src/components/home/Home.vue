@@ -1,69 +1,44 @@
 <template>
-  <div class="workbench">
-    <h3 style="margin: 5px">业务数据统计</h3>
-    <el-row :gutter="24">
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span style="font-size: 16px">销售总和</span>
-            </div>
-            <div class="text item">
-              <span>￥{{ this.rsum }}</span>
-              <div class="ik-pull-right">
-                <span class="stats__badge" v-text="this.rcount + '笔'"></span>
-              </div>
-            </div>
-          </el-card>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <span style="font-size: 16px">采购总和</span>
-            </div>
-            <div class="text item">
-              <span>￥{{ this.psum }}</span>
-              <div class="ik-pull-right">
-                <span class="stats__badge" v-text="this.pcount + '笔'"></span>
-              </div>
-            </div>
-          </el-card>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <el-card class="box-card">
-            <div class="text item">
-              <span style="font-size: 16px">库存总量</span>
-              <div class="text2">
-                <span>{{ this.ps }} 件</span>
-              </div>
-            </div>
-            <div class="text item">
-              <span style="font-size: 16px">库存总成本</span>
-              <div class="text2">
-                <span>￥</span>
-                <span> </span>
-              </div>
-            </div>
-          </el-card>
-        </div>
-      </el-col>
-    </el-row>
-    <div style="float: left; margin-top: 30px">
-      <!--横向条状图-->
-      <div class="Echarts">
-        <div id="main" style="width: 700px; height: 500px"></div>
-      </div>
-      <!---->
-    </div>
-    <div style="float: right">
-      <div id="f"></div>
-      <el-calendar v-model="value" class="calen"> </el-calendar>
-    </div>
-  </div>
+  <div class="block">
+  <el-timeline>
+    <el-timeline-item timestamp="2021/7/11" placement="top">
+      <el-card>
+        <h4>首次提交 Github 模板</h4>
+        <p>贺当仁 提交于 2021/7/11 8:46</p>
+      </el-card>
+    </el-timeline-item>
+    <el-timeline-item timestamp="2021/7/11" placement="top">
+      <el-card>
+        <h4>提交 Github</h4>
+        <p>周嘉敏 提交于 2021/7/11 12:46</p>
+      </el-card>
+    </el-timeline-item>
+    <el-timeline-item timestamp="2021/7/11" placement="top">
+      <el-card>
+        <h4>提交 Github </h4>
+        <p>刘追 提交于 2021/7/11 11:20</p>
+      </el-card>
+    </el-timeline-item>
+    <el-timeline-item timestamp="2021/7/11" placement="top">
+      <el-card>
+        <h4>首次提交 Github 模板</h4>
+        <p>梁政 提交于 2021/7/11 14:28</p>
+      </el-card>
+    </el-timeline-item>
+    <el-timeline-item timestamp="2021/7/12" placement="top">
+      <el-card>
+        <h4>更新 Github前端 模板</h4>
+        <p>贺当仁 提交于 2021/7/12 20:46</p>
+      </el-card>
+    </el-timeline-item>
+    <el-timeline-item timestamp="2021/7/13" placement="top">
+      <el-card>
+        <h4>更新 Github 模板</h4>
+        <p>贺当仁 提交于 2021/7/13 23:46</p>
+      </el-card>
+    </el-timeline-item>
+  </el-timeline>
+</div>
 </template>
 
 <script>
