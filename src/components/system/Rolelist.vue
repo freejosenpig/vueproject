@@ -55,7 +55,7 @@
             :data="newadd"
             :props="defaultProps"
             @check-change="handleCheckChange1"
-            node-key="menuId"
+            node-key="id"
             :default-checked-keys="[1]"
             show-checkbox
             ref="tree1"
@@ -97,17 +97,15 @@
         <el-table-column prop="cz" label="操作">
           <template #default="scope">
             <el-button
-              type="text"
               class="el-icon-edit"
               size="samll"
               @click="changeall(scope.$index)"
               >修改</el-button
             >
             <el-button
-              type="text"
               class="el-icon-delete"
               size="samll"
-              v-if="tableData[scope.$index].roleId != 1"
+              v-if="tableData[scope.$index].id != 1"
               @click="delet(scope.$index)"
               >删除</el-button
             >
@@ -146,7 +144,7 @@ export default {
       defaultProps: {
         children: 'childMenu',
         label: 'menuName',
-        value: 'menuId',
+        value: 'id',
       },
       dialogFormVisible: false,
       dialogaddVisible: false,
@@ -208,17 +206,18 @@ export default {
     //修改完成
     update(type) {
       const state = JSON.parse(sessionStorage.getItem('state'))
-      this.form.updatePeople = state.userInfo.userName
       var _this = this
       this.axios({
-        url: 'http://localhost:8088/frameproject/systempower/changerolemenu',
+        url: 'http://localhost:8188/sysMenu/changerolemenu',
         method: 'post',
         data: {
+          userName:JSON.stringify(state.userInfo.userName),
           menus: JSON.stringify(_this.form.menus),
           roles: JSON.stringify(_this.form),
         },
       })
         .then(function (response) {
+          console.log(response)
           if (type == -1) {
             if (response.data.data != false) {
               ElMessage.success({
@@ -266,11 +265,12 @@ export default {
       const state = JSON.parse(sessionStorage.getItem('state'))
       var _this = this
       this.axios({
-        url: 'http://localhost:8088/frameproject/systempower/findmenus',
+        url: 'http://localhost:8188/sysMenu/findmenus',
         method: 'post',
-        params: { id: _this.tableData[index].id },
+        params: { roleId: _this.tableData[index].id },
       })
         .then(function (response) {
+          console.log(response)
           //添加当前角色具有菜单id
           var parent = []
           response.data.data.menus.forEach((item) => {
@@ -279,8 +279,8 @@ export default {
           response.data.data.menus.forEach((item) => {
             //判断是否为父级菜单
             //if (item.menuType != 'M') {
-            if (parent.indexOf(item.menuId) == -1) {
-              _this.current.push(item.menuId)
+            if (parent.indexOf(item.id) == -1) {
+              _this.current.push(item.id)
               //}
             }
           })
@@ -304,12 +304,9 @@ export default {
       const state = JSON.parse(sessionStorage.getItem('state'))
       var _this = this
       this.axios({
-        url: 'http://localhost:8088/frameproject/systempower/findmenus',
+        url: 'http://localhost:8188/sysMenu/findmenus',
         method: 'post',
         params: { roleId: 0 },
-        headers: {
-          JWTDemo: state.userInfo.token,
-        },
       })
         .then(function (response) {
           _this.newadd = response.data.data.allmenus //添加所有菜单
@@ -370,7 +367,7 @@ export default {
         this.add.createPeople = state.userInfo.userName
         var _this = this
         this.axios({
-          url: 'http://localhost:8088/frameproject/systempower/addnewrole',
+          url: 'http://localhost:8188/sysRole/addnewrole',
           method: 'post',
           data: {
             menus: JSON.stringify(_this.add.menus),
