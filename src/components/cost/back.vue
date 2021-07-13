@@ -17,7 +17,7 @@
 	<el-table :data="tableData" style="width: 100%">
 		<el-table-column type="index" label="编号" align="center"> </el-table-column>
 		<el-table-column prop="jdOldpeople.oldpeopleName" label="老人姓名" align="center"></el-table-column>
-		<el-table-column prop="jdOldpeople.oldpeopleAddtime" label="入院时间" align="center"></el-table-column>
+		<el-table-column prop="jdOn.onTime" label="入院时间" align="center"></el-table-column>
 		<el-table-column prop="prestoreMoney" label="结算时间" align="center"> </el-table-column>
 		<el-table-column prop="istoback" label="结算状态" align="center">
 			<template #default="scope">
@@ -57,6 +57,7 @@
 				</p>
 				<el-button @click="addJiesuan" style="width: 100px;margin-left: 20px;" type="primary">确定结算</el-button>
 				<el-button @click="addcancel" style="width: 100px;margin-left: 20px;" type="danger">取消结算</el-button>
+				<!-- <el-button @click="selectlListBy" style="width: 100px;margin-left: 20px;" type="danger">查看详情</el-button> -->
 			</el-form>
 		</el-col>
 	</div>
@@ -96,6 +97,10 @@
 			}
 		},
 		methods: {
+			// //查看流水详情
+			// selectlListBy(){
+				
+			// },
 			//新增一条流水
 			insertLCostist(oldpeopleId,lastmoney){
 				const _this=this
@@ -166,8 +171,14 @@
 					console.log(response)
 					_this.jiesuanForm.oldpeopleId=response.data.jdOldpeople.oldpeopleId
 					_this.jiesuanForm.backEntryfeesMoney = response.data.backEntryfeesMoney
+					//应退金额小于0,最终金额等于
 					_this.jiesuanForm.backMoney=response.data.backMoney
-					_this.jiesuanForm.lastmoney = response.data.backMoney - response.data.backEntryfeesMoney
+					console.log(response.data.backMoney+"pppp")
+					if(response.data.backMoney=0){
+						_this.jiesuanForm.lastmoney=response.data.backEntryfeesMoney
+					}else if(response.data.backMoney<0){
+						_this.jiesuanForm.lastmoney = response.data.backMoney - response.data.backEntryfeesMoney
+					}
 					console.log(_this.jiesuanForm.lastmoney+"last")
 				}).catch(function(error) {
 					console.log(error)
