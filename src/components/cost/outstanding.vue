@@ -60,7 +60,7 @@
 		},
 		created() {
 			const _this=this
-			this.axios.get("http://localhost:8188/selectPreAll")
+			this.axios.get("http://localhost:8188/seletcOutAll")
 			.then(function(response){
 				console.log(response)
 				_this.tableData=response.data
