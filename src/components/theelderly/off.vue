@@ -24,7 +24,7 @@
 				</el-table-column>
 				<el-table-column prop="offoptime" label="经办时间" width="143.75" align="center">
 				</el-table-column>
-				<el-table-column prop="offNote" label="备注" width="143.75" align="center" show-overflow-tooltip>
+				<el-table-column prop="offNote" label="备注" width="148" align="center" show-overflow-tooltip>
 				</el-table-column>
 			</el-table>
 		</div>

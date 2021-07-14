@@ -177,138 +177,6 @@
 		</template>
 	</el-dialog>
 
-	<el-dialog title="咨询信息" v-model="selectConV" :modal="false" width="1200px" top="5vh" :before-close="close">
-		<div class="add">
-			<el-form ref="form" :model="cform" label-width="150px" size="mini" label-position="right">
-				<div class="add_content">
-					<div class="add_from">
-						<el-form-item label="咨询人姓名">
-							<el-input v-model="cform.consultingName" placeholder="请输入内容" disabled="true"></el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="咨询时间">
-							<input type="date" v-model="cform.consultingTime" style="width: 200px;background-color: white;
-								border: 1px #B3C0D1 solid;color: #8C939D;border-radius: 4px;text-align: center;" disabled="true" />
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="咨询方式">
-							<el-select v-model="cform.consultingWay" placeholder="请选择" disabled="true">
-								<el-option label="电话" value="电话"></el-option>
-								<el-option label="微信" value="微信"></el-option>
-								<el-option label="短信" value="短信"></el-option>
-								<el-option label="其他" value="其他"></el-option>
-							</el-select>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="咨询类型">
-							<el-select v-model="cform.consultingType" placeholder="请选择" disabled="true">
-								<el-option label="入住咨询" value="入住咨询"></el-option>
-								<el-option label="费用咨询" value="费用咨询"></el-option>
-								<el-option label="其他" value="其他"></el-option>
-							</el-select>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="联系电话">
-							<el-input v-model="cform.consultingPhone" placeholder="请输入内容" disabled="true"></el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="与老人关系">
-							<el-select v-model="cform.consultingRelation" placeholder="请选择" disabled="true">
-								<el-option label="本人" value="本人"></el-option>
-								<el-option label="父子" value="父子"></el-option>
-								<el-option label="父女" value="父女"></el-option>
-								<el-option label="母子" value="母子"></el-option>
-								<el-option label="母女" value="母女"></el-option>
-								<el-option label="其他" value="其他"></el-option>
-							</el-select>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="老人姓名">
-							<el-input v-model="cform.consultingOldname" placeholder="请输入内容" disabled="true"></el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="老人身份证">
-							<el-input v-model="cform.consultingOldidcard" placeholder="请输入内容" disabled="true">
-							</el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="老人性别">
-							<el-select v-model="cform.consultingOldsex" placeholder="请选择" disabled="true">
-								<el-option label="男" value="男"></el-option>
-								<el-option label="女" value="女"></el-option>
-							</el-select>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="老人年龄">
-							<el-input v-model="cform.consultingOldage" placeholder="请输入内容" disabled="true"></el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="老人自理情况">
-							<el-select v-model="cform.consultingSelfcare" placeholder="请选择" disabled="true">
-								<el-option label="自理" value="自理"></el-option>
-								<el-option label="介助" value="介助"></el-option>
-								<el-option label="介护" value="介护"></el-option>
-								<el-option label="其他" value="其他"></el-option>
-							</el-select>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="老人家庭住址">
-							<el-input v-model="cform.consultingOrdaddress" placeholder="请输入内容" disabled="true">
-							</el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="接待人">
-							<el-input v-model="cform.consultingService" placeholder="请输入内容" disabled="true"></el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="登记人">
-							<el-input v-model="cform.consultingRegistrant" placeholder="请输入内容" disabled="true">
-							</el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="登记时间">
-							<input type="date" v-model="cform.consultingRtime" style="width: 200px;background-color: white;
-								border: 1px #B3C0D1 solid;color: #8C939D;border-radius: 4px;text-align: center;" disabled="true" />
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="咨询内容">
-							<el-input v-model="cform.consultingContent" placeholder="请输入内容" type="textarea" :rows="3"
-								disabled="true">
-							</el-input>
-						</el-form-item>
-					</div>
-					<div class="add_from">
-						<el-form-item label="备注">
-							<el-input v-model="cform.consultingNote" placeholder="请输入内容" type="textarea" :rows="3"
-								disabled="true">
-							</el-input>
-						</el-form-item>
-					</div>
-				</div>
-			</el-form>
-		</div>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button @click="close" size="small">关 闭</el-button>
-			</span>
-		</template>
-	</el-dialog>
-
 	<el-dialog title="编辑信息" v-model="updateConV" :modal="false" width="1200px" top="5vh" :before-close="close">
 		<div class="add">
 			<el-form ref="form" :model="cform" label-width="150px" size="mini" label-position="right">
@@ -400,14 +268,18 @@
 					</div>
 					<div class="add_from">
 						<el-form-item label="接待人">
-							<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
-							</el-option>
+							<el-select v-model="cform.consultingService" placeholder="请选择">
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="add_from">
 						<el-form-item label="登记人">
-							<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
-							</el-option>
+							<el-select v-model="cform.consultingRegistrant" placeholder="请选择">
+								<el-option :key="item.id" :label="item.nname" :value="item.id" v-for="item in ndata">
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="add_from">
@@ -433,11 +305,16 @@
 		</div>
 		<template #footer>
 			<span class="dialog-footer">
-				<el-button @click="close" size="small">关 闭</el-button>
+				<el-button @click="close" size="small">取 消</el-button>
 				<el-button type="primary" @click="updatecon" size="small">确 定</el-button>
 			</span>
 		</template>
 	</el-dialog>
+
+	
+
+
+	
 </template>
 
 <script>

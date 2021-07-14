@@ -154,7 +154,18 @@
 					</div>
 					<div class="add_from">
 						<el-form-item label="文化程度">
-							<el-input v-model="oform.oldpeopleCulture" placeholder="请输入内容"></el-input>
+							<el-select v-model="oform.oldpeopleCulture" placeholder="请选择">
+								<el-option label="博士" value="博士"></el-option>
+								<el-option label="研究生" value="研究生"></el-option>
+								<el-option label="大学本科" value="大学本科"></el-option>
+								<el-option label="大学专科" value="大学专科"></el-option>
+								<el-option label="中等专业学校" value="中等专业学校"></el-option>
+								<el-option label="技工学校" value="技工学校"></el-option>
+								<el-option label="高中" value="高中"></el-option>
+								<el-option label="初中" value="初中"></el-option>
+								<el-option label="小学" value="小学"></el-option>
+								<el-option label="文盲或半文盲" value="文盲或半文盲"></el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="add_from">

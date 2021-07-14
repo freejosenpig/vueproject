@@ -208,7 +208,7 @@
 			this.axios.get("http://localhost:8188/selectEntryAll")
 			.then(function(response){
 				console.log(response)
-				_this.tableData=response.data
+				_this.tableData=response.data.data
 			}).catch(function(error){
 				console.log(error)
 			})

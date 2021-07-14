@@ -145,7 +145,7 @@
 			    .then(function(response){
 			    	console.log("-------------------------------------------")
 			    	console.log(response.data)
-			    	_this.tableData=response.data.list
+			    	_this.tableData=response.data.data.list
 			    }).catch(function(error){
 			    	console.log(error)
 			    })
@@ -157,7 +157,7 @@
 				this.axios.get("http://localhost:8188/selectPreAll",{params:this.pageInfo})
 				.then(function(response){
 					console.log(response.data)
-					_this.tableData=response.data.list
+					_this.tableData=response.data.data.list
 				}).catch(function(error){
 					console.log(error)
 				})
@@ -217,8 +217,8 @@
 				this.axios.get("http://localhost:8188/selectPreAll",{params:this.pageInfo})
 				.then(function(response){
 					console.log(response)
-					_this.tableData=response.data.list
-					_this.pageInfo.total = response.data.total
+					_this.tableData=response.data.data.list
+					_this.pageInfo.total = response.data.data.total
 				}).catch(function(error){
 					console.log(error)
 				})
@@ -229,8 +229,8 @@
 			this.axios.get("http://localhost:8188/selectPreAll",{params:this.pageInfo})
 			.then(function(response){
 				console.log(response)
-				_this.tableData=response.data.list
-				_this.pageInfo.total = response.data.total
+				_this.tableData=response.data.data.list
+				_this.pageInfo.total = response.data.data.total
 			}).catch(function(error){
 				console.log(error)
 			})

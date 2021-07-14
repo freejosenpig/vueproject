@@ -54,8 +54,8 @@
           </el-form-item>
            <el-form-item label="护理类型：">
             <el-radio v-model="add.ltype" label="自理">自理</el-radio>
-            <el-radio v-model="add.ltype" label="半自理">半自理</el-radio>
-            <el-radio v-model="add.ltype" label="不能自理">不能自理</el-radio>
+            <el-radio v-model="add.ltype" label="介助">介助</el-radio>
+            <el-radio v-model="add.ltype" label="不能自理">介护</el-radio>
           </el-form-item>
           <el-form-item label="护理费用：" prop="lmoney">
             <el-input v-model.trim="add.lmoney" style="width: 250px" placeholder="请填写费用"/>
@@ -87,7 +87,7 @@
           icon="el-icon-plus"
           type="primary"
           size="large"
-          @click="addnew()"
+          @click="addnew"
           >新增用户</el-button
         >
         <!-- 模糊查询 -->
@@ -158,7 +158,7 @@ export default {
       tableData: [],
       all: [],
       dialogFormVisible: false,
-	  
+      dialogaddVisible:false,
       form: {
         id: '',
         lname: '',
